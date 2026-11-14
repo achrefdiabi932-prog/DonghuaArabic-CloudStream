@@ -1,26 +1,34 @@
-# DonghuaArabic for CSWeb TV
+# DonghuaArabic CloudStream extension
 
-A CloudStream-compatible extension project for the Arabic DonghuaArabic website.
+A cross-platform CloudStream provider for the Arabic DonghuaArabic catalogue.
 
 - Website: https://www.donghuarabic.com/
-- Target app: CSWeb TV on LG webOS (CloudStream extension runtime)
+- Targets: CloudStream on Android and CSWeb TV on LG webOS (where the app supports CloudStream plugins)
 - Extension module: `DonghuaArabicProvider`
-- Repository manifest: `builds/repo.json`
+- Published repository manifest: `builds/repo.json`
 
-## Current status
+## Development status
 
-This is an **early development build**, not a finished player.
+This is an early development build, not yet a finished streaming extension.
 
-The provider draft attempts to read catalogue cards, search results, and title metadata from the public website. The live HTML selectors must be checked and adjusted. Playback extraction is intentionally not implemented yet.
+The provider currently contains a defensive first pass for catalogue cards, search, and title metadata. Website selectors still need validation against current live pages. Episode/stream extraction is not implemented, so the extension cannot play episodes yet. No DRM or access-control bypass is attempted.
 
-## Build
+## Build and publishing
 
-GitHub Actions builds the `.cs3` package and publishes `plugins.json` plus `repo.json` to the `builds` branch.
+GitHub Actions builds the CloudStream `.cs3` plugin and publishes the generated plugin list and repository manifest to the `builds` branch after pushes to `main`.
 
-After a successful build, add this repository URL in CSWeb TV:
+Pull requests run the build but do not publish artifacts. The workflow installs the Android SDK platform/build tools required by the Android Gradle plugin and uses Gradle 8.9 (the repository does not include a Gradle wrapper).
+
+## Install in CSWeb TV
+
+After a successful workflow run, add this repository URL in CSWeb TV:
 
 ```
 https://raw.githubusercontent.com/achrefdiabi932-prog/DonghuaArabic-CloudStream/builds/repo.json
 ```
 
-Adding the repository only makes the extension available in the app; it does not automatically install it.
+Then install the DonghuaArabic plugin from the repository inside the app. Adding the repository only makes the extension available; it does not automatically install it.
+
+## Android
+
+The same `.cs3` package can be used by compatible CloudStream Android builds. Add the published repository URL in the app's extension/repository settings and install the provider.

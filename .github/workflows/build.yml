@@ -5,6 +5,8 @@ on:
   push:
     branches: [main]
     paths-ignore: ['*.md']
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: write
@@ -18,13 +20,36 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools'
+      - name: Install Android SDK packages
+        run: |
+          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
       - name: Build CloudStream plugin
         run: |
-          chmod +x ./gradlew
-          ./gradlew make makePluginsJson
-          ./gradlew ensureJarCompatibility
+          # The upstream compatibility task currently crashes on Gradle 8.9
+          # after compilePluginJar has already produced the cross-platform JAR.
+          gradle --no-daemon make makePluginsJson -x :DonghuaArabicProvider:ensureJarCompatibility
+      - name: List generated plugin files
+        if: always()
+        run: |
+          find DonghuaArabicProvider/build build -type f \( -name '*.cs3' -o -name '*.jar' -o -name 'plugins.json' \) -print 2>/dev/null || true
+      - name: Upload build outputs for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: donghuaarabic-build-output
+          path: |
+            DonghuaArabicProvider/build/
+            build/plugins.json
+          if-no-files-found: warn
+          retention-days: 7
       - name: Publish repository branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
