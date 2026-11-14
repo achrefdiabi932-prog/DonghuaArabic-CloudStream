@@ -32,7 +32,6 @@ jobs:
       - name: Build CloudStream plugin
         run: |
           gradle --no-daemon make makePluginsJson
-          gradle --no-daemon ensureJarCompatibility
       - name: Publish repository branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
