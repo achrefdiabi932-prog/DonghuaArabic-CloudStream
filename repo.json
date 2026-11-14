@@ -1,0 +1,8 @@
+{
+  "name": "DonghuaArabic",
+  "description": "Arabic Donghua provider for CSWeb TV",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/achrefdiabi932-prog/DonghuaArabic-CloudStream/builds/plugins.json"
+  ]
+}

@@ -1,0 +1,25 @@
+[
+    {
+        "iconUrl": "https://www.donghuarabic.com/favicon.ico",
+        "jarFileSize": 29548,
+        "fileHash": "sha256-b60899f5af96abbfd3d26370ed5b0f2ca23f44de2329b553c1f0758be2d963c8",
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/achrefdiabi932-prog/DonghuaArabic-CloudStream",
+        "fileSize": 8788,
+        "status": 1,
+        "language": "ar",
+        "authors": [
+            "achrefdiabi932-prog"
+        ],
+        "tvTypes": [
+            "Anime"
+        ],
+        "version": 1,
+        "internalName": "DonghuaArabicProvider",
+        "jarUrl": "https://raw.githubusercontent.com/achrefdiabi932-prog/DonghuaArabic-CloudStream/builds/DonghuaArabicProvider.jar",
+        "description": "Arabic Donghua catalog from DonghuaArabic.com",
+        "url": "https://raw.githubusercontent.com/achrefdiabi932-prog/DonghuaArabic-CloudStream/builds/DonghuaArabicProvider.cs3",
+        "name": "DonghuaArabicProvider",
+        "jarHash": "sha256-030d4d4d5b842a944a4c9b46584dd44e8eb87abf875bd44cd1523ba75d951647"
+    }
+]
