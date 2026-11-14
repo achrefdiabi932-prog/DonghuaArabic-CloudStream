@@ -1,0 +1,51 @@
+name: Build DonghuaArabic extension
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore: ['*.md']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Build CloudStream plugin
+        run: |
+          chmod +x ./gradlew
+          ./gradlew make makePluginsJson
+          ./gradlew ensureJarCompatibility
+      - name: Publish repository branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p publish
+          cp DonghuaArabicProvider/build/*.cs3 publish/
+          cp build/plugins.json publish/
+          cat > publish/repo.json <<'EOF'
+          {
+            "name": "DonghuaArabic",
+            "description": "Arabic Donghua provider for CSWeb TV",
+            "manifestVersion": 1,
+            "pluginLists": [
+              "https://raw.githubusercontent.com/achrefdiabi932-prog/DonghuaArabic-CloudStream/builds/plugins.json"
+            ]
+          }
+          EOF
+          cd publish
+          git init
+          git checkout -b builds
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Publish DonghuaArabic extension"
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:builds
