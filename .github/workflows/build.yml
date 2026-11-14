@@ -25,10 +25,7 @@ jobs:
           gradle-version: '8.9'
       - uses: android-actions/setup-android@v3
         with:
-          packages: |
-            platform-tools
-            platforms;android-35
-            build-tools;35.0.0
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
       - name: Build CloudStream plugin
         run: |
           gradle --no-daemon make makePluginsJson
