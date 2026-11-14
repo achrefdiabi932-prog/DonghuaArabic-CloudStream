@@ -60,7 +60,7 @@ class DonghuaArabicProvider : MainAPI() {
             val image = anchor.selectFirst("img")
             val title = sequenceOf(
                 anchor.attr("title"),
-                image?.attr("alt"),
+                image?.attr("alt") ?: "",
                 anchor.text()
             ).firstOrNull { it.isNotBlank() }?.trim()?.replace(Regex("\\s+"), " ")
                 ?: continue
